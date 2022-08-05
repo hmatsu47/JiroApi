@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.example.model.Ingredients;
 import com.example.model.Order;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebServlet("/AcceptOrder")
@@ -21,22 +19,32 @@ public class AcceptOrder extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, JsonMappingException, JsonParseException {
-
-    	String requestBody = request.getReader().lines().collect(Collectors.joining("\r\n"));
-    	
-    	ObjectMapper requestMapper = new ObjectMapper();
-    	Order order = requestMapper.readValue(requestBody, Order.class);
-    	
-    	Ingredients ingredients = new Ingredients(order);
-    	
-    	ObjectMapper responseMapper = new ObjectMapper();
-    	String responseBody = responseMapper.writeValueAsString(ingredients);
-    	
-    	response.setContentType("application/json; charset=utf-8");
+            throws ServletException, IOException {
     	
     	PrintWriter out;
     	out = response.getWriter();
-        out.println(responseBody);
+		response.setHeader("Cache-Control", "nocache");
+    	response.setContentType("application/json");
+    	
+    	try {
+	    	String requestBody = request.getReader().lines().collect(Collectors.joining(""));
+	    	
+	    	ObjectMapper requestMapper = new ObjectMapper();
+	    	Order order = requestMapper.readValue(requestBody, Order.class);
+	    	order.validate();
+	    	
+	    	Ingredients ingredients = new Ingredients(order);
+	    	
+	    	ObjectMapper responseMapper = new ObjectMapper();
+	    	String responseBody = responseMapper.writeValueAsString(ingredients);
+	    	
+	        out.println(responseBody);
+	        out.flush();
+    	} catch(Exception e) {
+    		e.printStackTrace();
+    		
+    		out.println("{\"message\":\"error occured.\"}");
+    		out.flush();
+    	}
     }
 }
