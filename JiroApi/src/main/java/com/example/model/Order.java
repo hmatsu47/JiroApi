@@ -10,11 +10,15 @@ import lombok.Getter;
 public class Order implements Serializable {
 	private String ticketLabel;
 	private String lotOption;
-	private Call call;
+	private String yasai;
+	private String ninniku;
+	private String abura;
+	private String karame;
 	private static Map<String, Integer> noodleAmountsMap = new HashMap<>();
 	private static Map<String, Boolean> lotOptionSelectableMap = new HashMap<>();
 	private static Map<String, Integer> lotOptionMap = new HashMap<>();
 	private static Map<String, Integer> chaShuPorkMap = new HashMap<>();
+	private static Map<String, Double> amountMap = new HashMap<>();
 	
 	static {
 		noodleAmountsMap.put("ラーメン", 300);
@@ -41,33 +45,69 @@ public class Order implements Serializable {
 		chaShuPorkMap.put("大ラーメン", 2);
 		chaShuPorkMap.put("ぶた入り大ラーメン", 4);
 		chaShuPorkMap.put("ぶたダブル大ラーメン", 8);
+		
+		amountMap.put("指定なし", 1.0);
+		amountMap.put("抜き", 0.0);
+		amountMap.put("少なめ", 0.5);
+		amountMap.put("マシ", 2.0);
+		amountMap.put("マシマシ", 3.0);
 	}
 	
-	public Order(String ticketLabel, String lotOption, Call call) {
+	public Order(String ticketLabel, String lotOption, String yasai, String ninniku, String abura, String karame) {
 		
 		this.ticketLabel = ticketLabel;
 		this.lotOption = ticketLabel;
-		this.call = call;
+		this.yasai = yasai;
+		this.ninniku = ninniku;
+		this.abura = abura;
+		this.karame = karame;
 	}
 
 	private void checkTicketLabel() throws RuntimeException {
-		if (noodleAmountsMap.get(ticketLabel) == null) {
-			throw new RuntimeException("チケットの指定に誤りがあります：" + ticketLabel);
+		if (this.ticketLabel == null) {
+			throw new RuntimeException("チケットの指定に誤りがあります：null");
+		}
+		if (noodleAmountsMap.get(this.ticketLabel) == null) {
+			throw new RuntimeException("チケットの指定に誤りがあります：" + this.ticketLabel);
 		}
 	}
 
 	private void checkLotOption() throws RuntimeException {
-		checkTicketLabel();
-		if (!lotOptionSelectableMap.get(ticketLabel)) {
+		final String noOption = "なし";
+		if (this.lotOption == null) {
+			throw new RuntimeException("ロットオプションの指定に誤りがあります：null");
+		}
+		if (!lotOptionSelectableMap.get(this.ticketLabel) && !this.lotOption.equals(noOption)) {
 			throw new RuntimeException("大サイズの場合ロットオプションは指定できません");
 		}
-		if (lotOption != null && lotOptionMap.get(lotOption) == null) {
-			throw new RuntimeException("ロットオプションの指定に誤りがあります：" + lotOption);
+		if (lotOptionMap.get(this.lotOption) == null) {
+			throw new RuntimeException("ロットオプションの指定に誤りがあります：" + this.lotOption);
 		}
 	}
 	
-	public int getNoodleAmounts() throws RuntimeException {
+	private void checkAmountExpression(String expression) {
+		if (expression == null) {
+			throw new RuntimeException("コールの指定に誤りがあります：null");
+		}
+		if (amountMap.get(expression) == null) {
+			throw new RuntimeException("コールの指定に誤りがあります：" + expression);
+		}
+	}
+	
+	private Double getAmount(String expression) {
+		return amountMap.get(expression);
+	}
+	
+	public void validate() throws RuntimeException {
+		checkTicketLabel();
 		checkLotOption();
+		checkAmountExpression(this.yasai);
+		checkAmountExpression(this.ninniku);
+		checkAmountExpression(this.abura);
+		checkAmountExpression(this.karame);
+	}
+	
+	public int getNoodle() throws RuntimeException {
 		if (lotOptionSelectableMap.get(ticketLabel) && lotOption != null) {
 			return lotOptionMap.get(lotOption);
 		}
@@ -75,7 +115,22 @@ public class Order implements Serializable {
 	}
 	
 	public int getChaShuPork() throws RuntimeException {
-		checkTicketLabel();
 		return chaShuPorkMap.get(ticketLabel);
+	}
+	
+	public Double getVegetable() {
+		return getAmount(this.yasai);
+	}
+	
+	public Double getGarlic() {
+		return getAmount(this.ninniku);
+	}
+	
+	public Double getFat() {
+		return getAmount(this.abura);
+	}
+	
+	public Double getKaeshi() {
+		return getAmount(this.karame);
 	}
 }

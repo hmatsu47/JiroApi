@@ -2,15 +2,36 @@ package com.example.model;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Getter;
 
 @Getter
 public class Ingredients implements Serializable {
-	private MainIngredients mainIngredients;
-	private Toppings toppings;
+	@JsonProperty("noodle")
+	private int noodle;
 	
-	public Ingredients(MainIngredients mainIngredients, Toppings toppings) {
-		this.mainIngredients = mainIngredients;
-		this.toppings = toppings;
+	@JsonProperty("charSiuPork")
+	private int charSiuPork;
+	
+	@JsonProperty("vegetable")
+	private Double vegetable;
+	
+	@JsonProperty("garlic")
+	private Double garlic;
+	
+	@JsonProperty("fat")
+	private Double fat;
+	
+	@JsonProperty("kaeshi")
+	private Double kaeshi;
+	
+	public Ingredients(Order order) {
+		this.noodle = order.getNoodle();
+		this.charSiuPork = order.getChaShuPork();
+		this.vegetable = order.getVegetable();
+		this.garlic = order.getGarlic();
+		this.fat = order.getFat();
+		this.kaeshi = order.getKaeshi();
 	}
 }
