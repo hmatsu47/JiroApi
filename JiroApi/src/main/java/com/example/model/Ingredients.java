@@ -26,6 +26,7 @@ public class Ingredients implements Serializable {
 	@JsonProperty("kaeshi")
 	private Double kaeshi;
 	
+	// Order から必要食材に変換するためのコンストラクタ
 	public Ingredients(Order order) {
 		this.noodle = order.getNoodle();
 		this.charSiuPork = order.getChaShuPork();

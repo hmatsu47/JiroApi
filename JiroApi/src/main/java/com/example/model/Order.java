@@ -35,40 +35,42 @@ public class Order implements Serializable {
 	private static Map<String, Double> amountMap = new HashMap<>();
 	
 	static {
+		// チケット別の標準麺量
 		noodleAmountsMap.put("ラーメン", 300);
 		noodleAmountsMap.put("ぶたラーメン", 300);
 		noodleAmountsMap.put("ぶたダブルラーメン", 300);
 		noodleAmountsMap.put("大ラーメン", 450);
 		noodleAmountsMap.put("ぶた入り大ラーメン", 450);
 		noodleAmountsMap.put("ぶたダブル大ラーメン", 450);
-		
+		// ロットオプション指定可能なチケットか？
 		lotOptionSelectableMap.put("ラーメン", true);
 		lotOptionSelectableMap.put("ぶたラーメン", true);
 		lotOptionSelectableMap.put("ぶたダブルラーメン", true);
 		lotOptionSelectableMap.put("大ラーメン", false);
 		lotOptionSelectableMap.put("ぶた入り大ラーメン", false);
 		lotOptionSelectableMap.put("ぶたダブル大ラーメン", false);
-		
+		// ロットオプション（麺量）
 		lotOptionMap.put("少なめ", 200);
 		lotOptionMap.put("半分", 150);
 		lotOptionMap.put("1/3", 100);
-		
+		// チャーシューの枚数
 		chaShuPorkMap.put("ラーメン", 2);
 		chaShuPorkMap.put("ぶたラーメン", 4);
 		chaShuPorkMap.put("ぶたダブルラーメン", 8);
 		chaShuPorkMap.put("大ラーメン", 2);
 		chaShuPorkMap.put("ぶた入り大ラーメン", 4);
 		chaShuPorkMap.put("ぶたダブル大ラーメン", 8);
-		
+		// コールオプション（コール別の量）
 		amountMap.put("指定なし", 1.0);
 		amountMap.put("抜き", 0.0);
 		amountMap.put("少なめ", 0.5);
 		amountMap.put("マシ", 2.0);
 		amountMap.put("マシマシ", 3.0);
 	}
-	
+	// ロットオプション無指定の表記
 	final String noLotOption = "なし";
 	
+	// テストコード用のコンストラクタ
 	public Order(String ticketLabel, String lotOption, String yasai, String ninniku, String abura, String karame) {
 		
 		this.ticketLabel = ticketLabel;
@@ -79,6 +81,7 @@ public class Order implements Serializable {
 		this.karame = karame;
 	}
 
+	// Jackson で JSON →オブジェクト変換するためのデフォルトコンストラクタ
 	public Order() {
 		
 	}
@@ -120,6 +123,11 @@ public class Order implements Serializable {
 		return amountMap.get(expression);
 	}
 	
+	/*
+	 * このオブジェクトは Jackson からの変換に使用する
+	 * 変換するタイミングではバリデーションできないため
+	 * 変換後にバリデーションするメソッドとしてを用意
+	 */
 	public void validate() throws RuntimeException {
 		checkTicketLabel();
 		checkLotOption();
