@@ -126,7 +126,7 @@ public class Order implements Serializable {
 	/*
 	 * このオブジェクトは Jackson からの変換に使用する
 	 * 変換するタイミングではバリデーションできないため
-	 * 変換後にバリデーションするメソッドとしてを用意
+	 * 変換後にバリデーションするメソッドとして用意
 	 */
 	public void validate() throws RuntimeException {
 		checkTicketLabel();
