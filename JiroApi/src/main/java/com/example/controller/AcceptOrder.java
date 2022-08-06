@@ -31,8 +31,9 @@ public class AcceptOrder extends HttpServlet {
 	    	
 	    	ObjectMapper requestMapper = new ObjectMapper();
 	    	Order order = requestMapper.readValue(requestBody, Order.class);
+	    	// Jackson で受け取った値をバリデーション
 	    	order.validate();
-	    	
+	    	// 注文内容から必要な食材の量を割り出す
 	    	Ingredients ingredients = new Ingredients(order);
 	    	
 	    	ObjectMapper responseMapper = new ObjectMapper();

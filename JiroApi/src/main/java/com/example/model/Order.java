@@ -72,7 +72,7 @@ public class Order implements Serializable {
 	public Order(String ticketLabel, String lotOption, String yasai, String ninniku, String abura, String karame) {
 		
 		this.ticketLabel = ticketLabel;
-		this.lotOption = ticketLabel;
+		this.lotOption = lotOption;
 		this.yasai = yasai;
 		this.ninniku = ninniku;
 		this.abura = abura;
