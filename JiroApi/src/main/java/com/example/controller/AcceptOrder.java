@@ -43,7 +43,8 @@ public class AcceptOrder extends HttpServlet {
 	        out.flush();
     	} catch(Exception e) {
     		e.printStackTrace();
-    		
+    		// 組み込みエラー処理のトリガを避けるためにあえて sendError() を使わず setStatus() する
+    		response.setStatus(400);
     		out.println("{\"message\":\"error occured.\"}");
     		out.flush();
     	}
