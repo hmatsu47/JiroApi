@@ -21,10 +21,11 @@ public class AcceptOrder extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
     	
+		response.setHeader("Cache-Control", "nocache");
+		response.setCharacterEncoding("utf-8");
+    	response.setContentType("application/json");
     	PrintWriter out;
     	out = response.getWriter();
-		response.setHeader("Cache-Control", "nocache");
-    	response.setContentType("application/json");
     	
     	try {
 	    	String requestBody = request.getReader().lines().collect(Collectors.joining(""));
@@ -45,7 +46,7 @@ public class AcceptOrder extends HttpServlet {
     		e.printStackTrace();
     		// 組み込みエラー処理のトリガを避けるためにあえて sendError() を使わず setStatus() する
     		response.setStatus(400);
-    		out.println("{\"message\":\"error occured.\"}");
+    		out.println("{\"message\":\"" + e.getMessage() + "\"}");
     		out.flush();
     	}
     }
