@@ -39,11 +39,12 @@ class IngredientsTest {
 	void convert(String ticketLabel, String lotOption, String yasai, String ninniku, String abura, String karame,
 			int noodle, int chaShuPork, Double vegetable, Double garlic, Double fat, Double kaeshi) {
 		Order order = new Order(ticketLabel, lotOption, yasai, ninniku, abura, karame);
-		assertEquals(order.getNoodle(), noodle);
-		assertEquals(order.getChaShuPork(), chaShuPork);
-		assertEquals(order.getVegetable(), vegetable);
-		assertEquals(order.getGarlic(), garlic);
-		assertEquals(order.getFat(), fat);
-		assertEquals(order.getKaeshi(), kaeshi);
+		Ingredients ingredients = new Ingredients(order);
+		assertEquals(ingredients.getNoodle(), noodle);
+		assertEquals(ingredients.getChaSiuPork(), chaShuPork);
+		assertEquals(ingredients.getVegetable(), vegetable);
+		assertEquals(ingredients.getGarlic(), garlic);
+		assertEquals(ingredients.getFat(), fat);
+		assertEquals(ingredients.getKaeshi(), kaeshi);
 	}
 }
