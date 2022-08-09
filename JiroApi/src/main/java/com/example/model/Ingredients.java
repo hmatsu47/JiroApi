@@ -10,26 +10,26 @@ import lombok.Getter;
 public class Ingredients implements Serializable {
 	@JsonProperty("noodle")
 	private int noodle;
-	
-	@JsonProperty("charSiuPork")
-	private int charSiuPork;
-	
+
+	@JsonProperty("chaSiuPork")
+	private int chaSiuPork;
+
 	@JsonProperty("vegetable")
 	private Double vegetable;
-	
+
 	@JsonProperty("garlic")
 	private Double garlic;
-	
+
 	@JsonProperty("fat")
 	private Double fat;
-	
+
 	@JsonProperty("kaeshi")
 	private Double kaeshi;
-	
+
 	// Order から必要食材に変換するためのコンストラクタ
 	public Ingredients(Order order) {
 		this.noodle = order.getNoodle();
-		this.charSiuPork = order.getChaShuPork();
+		this.chaSiuPork = order.getChaSiuPork();
 		this.vegetable = order.getVegetable();
 		this.garlic = order.getGarlic();
 		this.fat = order.getFat();
