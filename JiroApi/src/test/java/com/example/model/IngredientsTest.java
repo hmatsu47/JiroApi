@@ -38,6 +38,7 @@ class IngredientsTest {
 	
 	void convert(String ticketLabel, String lotOption, String yasai, String ninniku, String abura, String karame,
 			int noodle, int chaShuPork, Double vegetable, Double garlic, Double fat, Double kaeshi) {
+		// Order に実装されている変換メソッドのテストを兼ねる
 		Order order = new Order(ticketLabel, lotOption, yasai, ninniku, abura, karame);
 		Ingredients ingredients = new Ingredients(order);
 		assertEquals(ingredients.getNoodle(), noodle);

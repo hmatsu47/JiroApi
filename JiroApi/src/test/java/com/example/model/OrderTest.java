@@ -31,7 +31,7 @@ class OrderTest {
 	    "タンメン, なし, 指定なし, 指定なし, 指定なし, 指定なし",
 	    "冷やし中華, なし, 指定なし, 指定なし, 指定なし, 指定なし"
 	})
-	void ticketValidation(String ticketLabel, String lotOption, String yasai, String ninniku, String abura, String karame) {
+	void failTicketValidation(String ticketLabel, String lotOption, String yasai, String ninniku, String abura, String karame) {
 		Order order = new Order(ticketLabel, lotOption, yasai, ninniku, abura, karame);
 		assertThrows(RuntimeException.class, () -> order.validate());
 	}
@@ -44,7 +44,7 @@ class OrderTest {
 	    "ぶた入り大ラーメン, 半分, 指定なし, 指定なし, 指定なし, 指定なし",
 	    "ぶたダブル大ラーメン, 1/3, 指定なし, 指定なし, 指定なし, 指定なし"
 	})
-	void lotOptionValidation(String ticketLabel, String lotOption, String yasai, String ninniku, String abura, String karame) {
+	void failLotOptionValidation(String ticketLabel, String lotOption, String yasai, String ninniku, String abura, String karame) {
 		Order order = new Order(ticketLabel, lotOption, yasai, ninniku, abura, karame);
 		assertThrows(RuntimeException.class, () -> order.validate());
 	}
@@ -57,7 +57,7 @@ class OrderTest {
 	    "ラーメン, なし, 指定なし, 指定なし, ベトベト, 指定なし",
 	    "ラーメン, なし, 指定なし, 指定なし, 指定なし, 濃いめ"
 	})
-	void failValidation(String ticketLabel, String lotOption, String yasai, String ninniku, String abura, String karame) {
+	void failCallValidation(String ticketLabel, String lotOption, String yasai, String ninniku, String abura, String karame) {
 		Order order = new Order(ticketLabel, lotOption, yasai, ninniku, abura, karame);
 		assertThrows(RuntimeException.class, () -> order.validate());
 	}
@@ -72,7 +72,7 @@ class OrderTest {
 	    "ラーメン, なし, 指定なし, 指定なし,, 指定なし",
 	    "ラーメン, なし, 指定なし, 指定なし, 指定なし,"
 	})
-	void nullValidation(String ticketLabel, String lotOption, String yasai, String ninniku, String abura, String karame) {
+	void failNullValidation(String ticketLabel, String lotOption, String yasai, String ninniku, String abura, String karame) {
 		Order order = new Order(ticketLabel, lotOption, yasai, ninniku, abura, karame);
 		assertThrows(RuntimeException.class, () -> order.validate());
 	}
