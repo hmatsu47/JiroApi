@@ -6,9 +6,6 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import lombok.Getter;
-
-@Getter
 public class Order implements Serializable {
 	@JsonProperty("ticketLabel")
 	private String ticketLabel;
